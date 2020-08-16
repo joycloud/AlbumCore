@@ -1,0 +1,31 @@
+﻿.nav-item:hover {
+    background-color: #bebdbd;
+    color: #030303;
+}
+
+.border-bottom {
+    border-bottom: 0px solid #dee2e6 !important;
+}
+
+.navbar {
+    padding: 0rem 0rem;
+}
+
+.navbar-brand {
+    margin-right: 4rem;
+}
+
+@media (max-width: 575.98px) {
+    .navbar-expand-sm > .container, .navbar-expand-sm > .container-fluid {
+        padding : 0 20px;
+    }
+}
+
+
+.container {
+    width: 100%;
+    padding-right: 0%;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

@@ -8,13 +8,18 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using AlbumCore.Models;
 
 namespace AlbumCore
 {
     public class Startup
     {
+        public readonly IConfiguration _config;
+
         public Startup(IConfiguration configuration)
         {
+            //_config = configuration;
             Configuration = configuration;
         }
 
@@ -23,8 +28,21 @@ namespace AlbumCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //// 2020.07.18
+            //services.AddDbContext<ConnectionDB>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
+
+            //services.AddMvc();
+            //services.AddDbContext<ConnectionDB>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //});
+
             services.AddControllersWithViews();
         }
+
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,7 +68,7 @@ namespace AlbumCore
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=AlbumView}/{id?}");
+                    pattern: "{controller=Home}/{action=PicsView}/{id?}");
             });
         }
     }

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "CreateAlbum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CreateAlbum</h1>
+
+<div id="DIV1">
+    <input type="text" class="form-control" id="filename" placeholder="輸入相簿名稱" value="">
+</div>
+<div id="DIV2">
+    <button class="btn btn-light" onclick="Upload()">Upload</button>
+</div>
+
+<p></p>
+<div id="dropDIV" ondragover="dragoverHandler(event)" ondrop="dropHandler(event)">
+    <div style="text-align:center">Drop files here</div>
+    <div id="imgDIV"></div>
+</div>
