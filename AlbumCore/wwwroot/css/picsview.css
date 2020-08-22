@@ -1,14 +1,13 @@
 ﻿.imgpicview {
     height: 200px;
-    object-fit: scale-down;
+    object-fit: contain;
 }
 .piccon {
-    float: left;
-    margin-bottom: 6px;
-    margin-right: 6px;
-/*    border: 3px solid #a19d9d;*/
-    border-radius: 5px;
+    /*margin-bottom: 6px;
+    margin-right: 6px;*/
+    /*   border-radius: 5px;*/
     overflow: hidden;
+    display: inline-block;
 }
 
     .piccon img {

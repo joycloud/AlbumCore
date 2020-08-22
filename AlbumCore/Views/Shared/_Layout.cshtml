@@ -38,6 +38,17 @@
             </div>
         </nav>
     </header>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/pictools.js"></script>
+    <script src="~/js/picdelete.js"></script>
+    <script src="~/js/jquery.fancybox.min.js"></script>
+    @*<script src="~/js/picsview.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-infinitescroll/3.0.3/infinite-scroll.pkgd.min.js"></script>*@
+
+    <script src="~/js/infinite-scroll.pkgd.min.js"></script>
+    @*<script src="~/js/example.js"></script>*@
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -49,17 +60,7 @@
                 &copy; 2020 - AlbumCore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </div>
         </footer>*@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> <script src="~/js/pictools.js"></script>
-    <script src="~/js/picdelete.js"></script>
-    <script src="~/js/jquery.fancybox.min.js"></script>
-    @*<script src="~/js/iframe.js"></script>*@
-    @*<script src="~/js/fancybox.js"></script>*@
-    @*<script src="~/js/picsview.js"></script>*@
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-infinitescroll/3.0.3/infinite-scroll.pkgd.min.js"></script>*@
 
-    <script src="~/js/infinite-scroll.pkgd.min.js"></script>
-    <script src="~/js/example.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

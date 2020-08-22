@@ -6,58 +6,21 @@
 
 <h1>PicsView</h1>
 
-<script type="text/javascript">
-    function getTeams() {
-        $("#tbTeams").empty();
-        $.ajax({
-            type: 'POST',
-            url: '/Home/AjaxGetTeams',
-            data: { Puid: value },
-            success: function (data) {
-                let fcss = 'data-fancybox data-options=\'{"type" : "iframe", "iframe" : {"preload" : false,"css" : {"width" : "450","height" : "400"}}}\'>Item</a></td>';
-                for (var j = 0; j < data.length; j++) {
-                    $("#tbTeams").append("<tr>"
-                        + "<td>" + data[j].Bugda + "</td>"
-                        + "<td>" + data[j].Bugna + "</td>"
-                        + "<td>" + data[j].Total + "</td>"
-                        + "<td> <a href=Items2?Uid=" + data[j].Uid + "&Bugda=" + data[j].Bugda + " "
-                        + fcss
-                        + "</tr>");
-                }
-            }
-        })
-    };
-
-    let i = 1;
-    var infScroll = new InfiniteScroll(".example", {
-    path: function () {
-        // 頁面路徑
-        if (this.loadCount < 1) {
-            console.log(i + '  ' + this.loadCount)
-            var someStringValue = @safeStringValue;
-            console.log(someStringValue)
-            i++;
-            return "https://output.jsbin.com/cuqowif"; // 讀取此頁面
-        }
-    },
-    append: ".article", // 匯入物件類別
-    status: ".scroller-status" // 捲軸狀態類別
-})
-</script>
 <div class="example">
-    @{
-        var safeStringValue = ViewBag.bigPath;
-        foreach (var image in ViewBag.Pics)
-        {
-            <div class="article">
+    <div class="article">
+        @{
+            var safeStringValue = ViewBag.bigPath;
+            foreach (var image in ViewBag.Pics)
+            {
                 <div class="piccon">
                     <a href=@Url.Content(image.bigPath) data-fancybox="images">
                         <img class="imgpicview" src=@Url.Content(image.smPath)>
                     </a>
                 </div>
-            </div>
+
+            }
         }
-    }
+    </div>
     <!-- 捲軸狀態 -->
     <div class="scroller-status">
         <div class="infinite-scroll-request loader-ellips"></div>
@@ -65,5 +28,15 @@
         <p class="infinite-scroll-error">沒有頁面可以讀取了</p>
     </div>
 </div>
-
-
+<script>
+    var infScroll = new InfiniteScroll(".example", {
+        path: function () {
+            // 頁面路徑
+            if (this.loadCount < 1) {
+                return "https://output.jsbin.com/cuqowif"; // 讀取此頁面
+            }
+        },
+        append: ".article", // 匯入物件類別
+        status: ".scroller-status" // 捲軸狀態類別
+    })
+</script>
