@@ -4,22 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AlbumCore</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    @*<link href="https://cdn.rawgit.com/sachinchoolur/lightgallery.js/master/dist/css/lightgallery.css" rel="stylesheet">*@
-    @*<link rel="stylesheet" href="~/css/logotool.css" />*@
-    <link rel="stylesheet" href="~/css/albumview.css?55" />
-    <link rel="stylesheet" href="~/css/createpic.css" />
-    <link rel="stylesheet" href="~/css/picsview.css?2" />
-    <link rel="stylesheet" href="~/css/newcover.css?EE" />
-    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css" />
-    @*<link rel="stylesheet" href="~/css/fancybox.css" />*@
 
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/albumview.css?81" />
+    <link rel="stylesheet" href="~/css/createpic.css?7" />
+    <link rel="stylesheet" href="~/css/newcover.css?74" />
+    <link rel="stylesheet" href="~/css/lightgallery.css?12" />
+    <link rel="stylesheet" href="~/css/lightgallery2.css?1" />
+    @*<link rel="stylesheet" href="~/css/login.css?586" />*@
+    <link rel="stylesheet" href="~/css/picsview.css?45" />
+    <link rel="stylesheet" href="~/css/style.css?185" />
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark tools border-bottom box-shadow mb-3">
+        <nav id="nav" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark tools border-bottom box-shadow ">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="AlbumView">Jorgy</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="index">Jorgy</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -28,10 +29,20 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="AlbumView">AlbumView</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CreateAlbum">CreateAlbum</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  text-white" id="login" href="/Home/LoginView"
+                               data-fancybox data-options='{"type" : "iframe", "iframe" : {"preload" : false,
+                                                            "css" : {"width" : "18%","height" : "36%",  "border-radius" : "12px"}}}'>
+                                Sign In
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -42,18 +53,38 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/pictools.js"></script>
     <script src="~/js/picdelete.js"></script>
-    <script src="~/js/jquery.fancybox.min.js"></script>
+    c
     @*<script src="~/js/picsview.js"></script>*@
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-infinitescroll/3.0.3/infinite-scroll.pkgd.min.js"></script>*@
-
     <script src="~/js/infinite-scroll.pkgd.min.js"></script>
-    @*<script src="~/js/example.js"></script>*@
 
-    <div class="container">
+    <!-- All kit's cdn -->
+    <script src="https://cdn.jsdelivr.net/picturefill/2.3.1/picturefill.min.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lightgallery.js/master/dist/js/lightgallery.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lg-pager.js/master/dist/lg-pager.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lg-autoplay.js/master/dist/lg-autoplay.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lg-fullscreen.js/master/dist/lg-fullscreen.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lg-zoom.js/master/dist/lg-zoom.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lg-hash.js/master/dist/lg-hash.js"></script>
+    <script src="https://cdn.rawgit.com/sachinchoolur/lg-share.js/master/dist/lg-share.js"></script>
+    <!-- which effect you want to use -->
+    <script src="~/js/lg-thumbnail.js"></script>
+    <script src="~/js/jquery.fancybox.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("[data-fancybox]").fancybox({
+                afterClose: function () {
+                    history.go(0);
+                }
+            });
+        });
+    </script>
+    <div class="container2">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
 
     @*<footer class="border-top footer text-muted">
             <div class="container">

@@ -4,40 +4,105 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>PicsView</h1>
+<h1>Pictures View</h1>
 
-
-<div class="example">
-    <div class="article">
-        @{
-            var safeStringValue = ViewBag.bigPath;
-            foreach (var image in ViewBag.Pics)
-            {
-                <div class="piccon">
-                    <a href=@Url.Content(image.bigPath) data-fancybox="images">
-                        <img class="imgpicview" src=@Url.Content(image.smPath)>
-                    </a>
-                </div>
-
-            }
-        }
+<style>
+    #gotop {
+        position: fixed;
+        border-radius: 50px;
+        right: 20px;
+        bottom: 30px;
+        padding: 2px 13px;
+        font-size: 25px;
+        background: rgba(228, 211, 211, 0.36);
+        color: #FAFCFD;
+        cursor: pointer;
+        z-index: 1000;
+    }   
+</style>
+    <div class="feed">
+        <div id="art1" class="article">
+            <ul id="aniimated-thumbnials" class="list-unstyled row">
+                @{
+                    foreach (var image in ViewBag.Pics)
+                    {
+                        <li class="picts" data-src=@Url.Content(image.bigPath) data-pinterest-text="Pin it1" data-tweet-text="share on twitter 1">
+                            <a href="">
+                                <img class="img-responsive" src=@Url.Content(image.smPath) alt="Thumb-1">
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
     </div>
-    <!-- 捲軸狀態 -->
-    <div class="scroller-status">
-        <div class="infinite-scroll-request loader-ellips"></div>
-        <p class="infinite-scroll-last">開始加載</p>
-        <p class="infinite-scroll-error">沒有頁面可以讀取了</p>
-    </div>
-</div>
+    <div id="gotop">⇧</div>
+
 <script>
-    var infScroll = new InfiniteScroll(".example", {
-        path: function () {
-            // 頁面路徑
-            if (this.loadCount < 1) {
-                return "https://output.jsbin.com/cuqowif"; // 讀取此頁面
+    @*var totalpage = @ViewBag.totalpage;*@
+    @*let getpics = (num) => {
+        let i;
+        $.ajax({
+            type: 'POST',
+            async: false,
+            url: '/Home/AjaxGetGetPicture',
+            data: { page: num, Albumname: '@ViewBag.Albumname'},
+            success: function (data) {
+                i = data;
             }
-        },
-        append: ".article", // 匯入物件類別
-        status: ".scroller-status" // 捲軸狀態類別
-    })
+        });
+        return i;
+    };*@
+    lightGallery(document.getElementById('aniimated-thumbnials'), {
+        thumbnail: true
+    });
+
+    // back to top
+    // onload to hide the button
+    window.onload = function () {
+        $('#gotop').stop().fadeOut("fast");
+    }
+
+    // click and back to top
+    $("#gotop").click(function () {
+        $("html,body").animate({
+            scrollTop: 0
+        }, 1000);
+    });
+    // if < 300 hide else show
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('#gotop').fadeIn("fast");
+        } else {
+            $('#gotop').stop().fadeOut("fast");
+        }
+    });
+
+    // Scroll to find the others pictures
+    $(document).ready(function () {
+        $('.feed').infiniteScroll({
+            path: function () {
+                // 刪除空白內容div
+                var thisNode = document.getElementById("art0");
+                if (thisNode != null)
+                    thisNode.remove();
+                if (this.loadCount < @ViewBag.totalpage ) {
+                    return "/Home/TemporaryView?num=" + this.loadCount + "&Albumname=" + '@ViewBag.Albumname'; // 讀取此頁面
+                }
+            },
+            append: '.article',
+            status: '.scroller-status',
+        });
+    });
+
+    //$(document).ready(function () {
+    //    var we = $('.container2').width();
+    //    console.log(we);
+    //});
+
+    //$(document).ready(function () {
+    //    $(window).resize(function () {
+    //        $("span").text(x += 1);
+    //    });
+
 </script>

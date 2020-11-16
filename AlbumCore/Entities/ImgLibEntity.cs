@@ -23,7 +23,7 @@ namespace AlbumCore.Entities
             foreach (var item in paths)
             {
                 int i = item.path.IndexOf("\\Album\\");
-                string finpath = "~" + item.path.Substring(i, item.path.Length - i);
+                string finpath = item.path.Substring(i, item.path.Length - i);
                 finpath = finpath.Replace("\\", "/");
 
                 // Album URL

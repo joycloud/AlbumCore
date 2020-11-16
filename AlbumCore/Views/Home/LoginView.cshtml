@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LoginView</title>
+    <link rel="stylesheet" href="~/css/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" />
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script>
+        function LoginCheck() {
+            if ($("#inputAccount").val().trim() != '' &&
+                $("#inputPassword").val().trim() != '') {
+
+                $.ajax({
+                    type: "POST",
+                    // 預設true，是同步執行狀態，false非同步執行完成才往下跑
+                    async: false,
+                    url: "/Home/LoginCheck?Account=" + $("#inputAccount").val().trim() + "&Password=" + $("#inputPassword").val().trim(),
+                    processData: true,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.type == true) {
+                            alert("Login Success!");
+                            parent.$.fancybox.close();
+                            alert(77);
+                        }
+                        else {
+                            alert("Account or password is false!");
+                        }
+                    },
+                    else: function () {
+                        alert('Login Error!');
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form class="form-signin">
+        <input type="text" id="inputAccount" class="form-control" placeholder="Account" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="loginbutton" onclick="LoginCheck()">Sign in</button>
+    </form>
+</body>
+</html>

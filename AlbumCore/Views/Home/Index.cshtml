@@ -1,8 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero">
+
+    @*<div class="navbar2">
+        <button class="signup" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+    </div>*@  
+
+    <div class="content">
+        <h4>Welcome to</h4>
+        <h1 class="jh1">Jorgy's<br>Photo Studio</h1>
+        <button type="button">Take a tour</button>
+    </div>
+    <div class="bubbles">
+        <img src="~/pics/bubble.png">
+        <img src="~/pics/bubble.png">
+        <img src="~/pics/bubble.png">
+        <img src="~/pics/bubble.png">
+        <img src="~/pics/bubble.png">
+        <img src="~/pics/bubble.png">
+        <img src="~/pics/bubble.png">
+    </div>
 </div>

@@ -39,19 +39,19 @@ namespace AlbumCore.Models
         }
 
         // get PicturesList
-        public static List<PicsList> PicsSelect(string Albumname, int idnum)
+        public static List<PicsList> PicsSelect(string Albumname)
         {
             using (MISContext db = new MISContext())
             {
                 var data = (from a in db.AlbumPicture
                             join b in db.Album on a.Sn equals b.SN
-                            where b.Name == Albumname && a.sctrl == "Y" && a.idnum >= idnum
+                            where b.Name == Albumname && a.sctrl == "Y"
                             orderby (a.idnum)
                             select new PicsList
                             {
                                 picturename = a.Picturefile,
                                 idnum = a.idnum
-                            }).Take(20).ToList();
+                            }).ToList();
 
                 return data;
             }
@@ -61,6 +61,22 @@ namespace AlbumCore.Models
         {
             public string picturename { get; set; }
             public int idnum { get; set; }
+        }
+
+        // get totalpage
+        public static int gettotalpage(string Albumname)
+        {
+            using (MISContext db = new MISContext())
+            {
+                decimal data = (from a in db.AlbumPicture
+                                join b in db.Album on a.Sn equals b.SN
+                                where b.Name == Albumname && a.sctrl == "Y"
+                                select a).ToList().Count;
+
+                // 無條件進位
+                int pagecount = Convert.ToInt32(Math.Ceiling(data / 20));
+                return pagecount;
+            }
         }
 
         // 取最新SNid
@@ -87,19 +103,19 @@ namespace AlbumCore.Models
         }
 
         // loading and get top 20 pictures
-        public static List<picstopList> picstop(string Albumname,int idnum)
+        public static List<picstopList> picstop(string Albumname, int idnum)
         {
             using (MISContext db = new MISContext())
             {
                 int SN = db.Album.Where(s => s.Name == Albumname).Select(s => s.SN).ToList()[0];
-                
-                var data = (from o in db.AlbumPicture                             
+
+                var data = (from o in db.AlbumPicture
                             where o.sctrl == "Y" && o.Sn == SN && o.idnum >= idnum
                             orderby (o.idnum)
                             select new picstopList
                             {
                                 idnum = o.idnum,
-                                Picturefile = o.Picturefile                                
+                                Picturefile = o.Picturefile
                             }).Take(20).ToList();
 
                 return data;
@@ -109,7 +125,22 @@ namespace AlbumCore.Models
         public partial class picstopList
         {
             public int idnum { get; set; }
-            public string Picturefile { get; set; }         
+            public string Picturefile { get; set; }
+        }
+        public static bool CheckUser(string account, string password)
+        {
+            bool result = false;
+            using (MISContext db = new MISContext())
+            {
+                var data = db.Album_User.Where(s => s.account == account && s.password == password).Select(s => s.ID).ToList();
+
+                if (data.Count > 0)
+                    result = true;
+            }
+
+            // if user is true，then cookie
+
+            return result;
         }
     }
 }

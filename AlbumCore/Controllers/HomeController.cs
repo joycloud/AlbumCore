@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using System.Drawing;
 using System.Drawing.Imaging;
 using static AlbumCore.Models.selectModel;
+using Newtonsoft.Json;
 
 namespace AlbumCore.Controllers
 {
@@ -35,6 +36,37 @@ namespace AlbumCore.Controllers
             return View();
         }
 
+        public IActionResult LoginView()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult LoginCheck(string Account, String Password)
+        {
+            // check user data
+            bool check = false;
+            if (!string.IsNullOrEmpty(Account) && !string.IsNullOrEmpty(Password))
+                check = CheckUser(Account, Password);
+
+            // check ok then get cookie
+
+            UserList userlist = new UserList();
+            userlist.type = check;
+            return Json(userlist);
+        }
+
+        public class UserList
+        {
+            public bool type { get; set; }
+        }
+
+        public IActionResult IndexView()
+        {
+            return View();
+        }
+
         public IActionResult AlbumView()
         {
             string path = _hostingEnvironment.ContentRootPath + "\\wwwroot\\Album\\";
@@ -47,20 +79,19 @@ namespace AlbumCore.Controllers
 
 
             // get AlbumsList to order by
-            var data = selectModel.AlbumListSelect();
+            //var data = selectModel.AlbumListSelect();
             List<string> dirlist2 = new List<string>();
 
-            
-            foreach (var list in data)
-            {
-                foreach (var item in dirlist)
-                {
-                    // show pictures in AlbumListSelect
-                    if (item.ToString() == list.albumname)
-                        dirlist2.Add(list.albumname);
-                }
-            }
 
+            //foreach (var list in data)
+            //{
+            foreach (var item in dirlist)
+            {
+                //show pictures in AlbumListSelect
+                //if (item.ToString() == list.albumname)
+                dirlist2.Add(item.ToString());
+            }
+            //}
 
             string path1 = "";
             List<PicList> paths = new List<PicList>();
@@ -72,6 +103,8 @@ namespace AlbumCore.Controllers
 
                 if (filePaths.Length != 0)
                 {
+                    int ii = filePaths[0].IndexOf("\\Album\\");
+                    filePaths[0] = filePaths[0].Substring(ii, filePaths[0].ToString().Length - ii);
                     paths.Add(new PicList
                     {
                         path = filePaths[0].ToString(),
@@ -88,6 +121,7 @@ namespace AlbumCore.Controllers
 
         public class PicList
         {
+            public int page { get; set; }
             public string path { get; set; }
             public string Albumname { get; set; }
         }
@@ -310,28 +344,95 @@ namespace AlbumCore.Controllers
             List<PicList> List = new List<PicList>();
 
 
-            // get top 20 pictures list
-            //List<picstopList> toplist = selectModel.picstop(Albumname,1);
-
-
             // get top 20 pictures list orderby idnum
-            var PicsList = selectModel.PicsSelect(Albumname, 1);
+            //var PicsList = PicsSelect(Albumname);
 
-            foreach (var list in PicsList)
+            //foreach (var list in PicsList)
+            //{
+            foreach (string item in filePaths)
             {
-                foreach (string item in filePaths)
-                {
-                    int i = item.IndexOf("smail\\") + 6;
-                    string stringname = item.Substring(i , item.Length - i);
+                int i = item.IndexOf("smail\\") + 6;
+                string stringname = item.Substring(i, item.Length - i);
 
-                    // show pictures in PicsList
-                    if (stringname == list.picturename)
-                        List.Add(new PicList { path = item.ToString(), Albumname = "" });
-                }
+                // show pictures in PicsList
+                //if (stringname == list.picturename)
+                List.Add(new PicList { path = item.ToString(), Albumname = "" });
             }
+            //}
+            int page = 1;
+            int count = 1;
+            foreach (var item in List)
+            {
+                decimal aa = Image.FromFile(item.path).Width;
+
+                item.page = page;
+                if (count % 30 == 0)
+                    page++;
+                count++;
+            }
+            List = List.Where(o => o.page == 1).ToList();
 
             ImgLibEntity lib = new ImgLibEntity();
             ViewBag.Pics = lib.ImageLibs(List);
+            ViewBag.Albumname = Albumname;
+            ViewBag.totalpage = page;
+            return View();
+        }
+
+        //[HttpGet, HttpPost]
+        //public ActionResult AjaxGetGetPicture(int page, string Albumname)
+        //{
+        //    var PicsList = selectModel.PicsSelect(Albumname);
+        //    int aa = PicsList.Last().idnum;
+        //    return Content(aa.ToString());
+
+        //}
+
+        [HttpGet, HttpPost]
+        public IActionResult TemporaryView(int num, string Albumname)
+        {
+            List<PicList> List = new List<PicList>();
+            if (num > 0)
+            {
+                if (string.IsNullOrEmpty(Albumname))
+                    Albumname = "20200809_ssss";
+
+                string path = _hostingEnvironment.ContentRootPath + "\\wwwroot\\Album\\" + Albumname + "\\smail\\";
+                string[] filePaths = Directory.GetFiles(path);
+
+                // get top 20 pictures list orderby idnum            
+                //var PicsList = selectModel.PicsSelect(Albumname);
+
+                //foreach (var list in PicsList)
+                //{
+                foreach (string item in filePaths)
+                {
+                    int i = item.IndexOf("smail\\") + 6;
+                    string stringname = item.Substring(i, item.Length - i);
+
+                    //show pictures in PicsList
+                    //if (stringname == list.picturename)
+                    List.Add(new PicList { path = item.ToString(), Albumname = "" });
+                }
+                //}
+
+                int page = 1;
+                int count = 1;
+                foreach (var item in List)
+                {
+                    item.page = page;
+                    if (count % 30 == 0)
+                        page++;
+                    count++;
+                }
+                List = List.Where(o => o.page == num + 1).ToList();
+            }
+            ImgLibEntity lib = new ImgLibEntity();
+            ViewBag.Pics = lib.ImageLibs(List);
+            if (num == 0)
+                ViewBag.num = "art0";
+            else
+                ViewBag.num = "art" + (num + 1).ToString();
             return View();
         }
     }

@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TemporaryView</title>
+</head>
+<body>
+    555555555555555555555
+    <div id="@ViewBag.num" class="article">
+        <ul id="aniimated-thumbnials" class="list-unstyled row">
+            @{
+                foreach (var image in ViewBag.Pics)
+                {
+                    <li class="picts" data-src=@Url.Content(image.bigPath) data-pinterest-text="Pin it1" data-tweet-text="share on twitter 1">
+                        <a href="">
+                            <img class="img-responsive" src=@Url.Content(image.smPath) alt="Thumb-1">
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
+        @*<div class="article">
+                @{
+                    foreach (var image in ViewBag.Pics)
+                    {
+                        <div class="piccon">
+                            <a href=@Url.Content(image.bigPath) data-fancybox="images">
+                                <img class="imgpicview" src=@Url.Content(image.smPath)>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>*@
+</body>
+</html>
