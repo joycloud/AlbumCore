@@ -1,4 +1,5 @@
 
-#個人相簿專案(.Net Core 3.1)
+# My Albumn Web (.Net Core 3.1)
 
 ---
+![image](https://github.com/joycloud/AlbumCore/blob/master/001.JPG)
