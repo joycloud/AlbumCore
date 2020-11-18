@@ -46,5 +46,13 @@
 ![image](https://github.com/joycloud/AlbumCore/blob/master/006.JPG)
 
 
+---
+
+## Upload Pictures
+  * Create an album and upload photos.
+  
+![image](https://github.com/joycloud/AlbumCore/blob/master/007.JPG)
+
+
 
 
